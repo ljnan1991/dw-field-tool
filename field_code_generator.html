@@ -1755,6 +1755,8 @@ async function syncPush(isInit = false) {
 // 启动
 // ============================================================
 init();
+// 浏览器自动填充发生在 DOMContentLoaded 之后，用 setTimeout 兜底清空
+setTimeout(() => { document.getElementById('searchInput').value = ''; }, 100);
 </script>
 
 <!-- GitHub 配置弹窗 -->
