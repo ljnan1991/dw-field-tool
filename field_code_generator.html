@@ -248,7 +248,7 @@
     <div class="search-box">
       <div style="font-weight:600;font-size:13px;margin-bottom:10px;">中文名称 → 字段 Code 生成</div>
       <div class="search-row">
-        <input id="searchInput" autocomplete="off" placeholder="输入中文名称，如：近7日交易成交额均值" oninput="onSearchInput()" onkeydown="onSearchKey(event)" />
+        <input id="searchInput" autocomplete="new-password" placeholder="输入中文名称，如：近7日交易成交额均值" oninput="onSearchInput()" onkeydown="onSearchKey(event)" />
         <button id="btnGenerate" class="btn btn-primary" onclick="generateFromSearch()">生成</button>
       </div>
       <div class="search-suggest" id="searchSuggest"></div>
@@ -659,6 +659,8 @@ function init() {
   renderWordList();
   renderHistory();
   updateResult();
+  // 强制清空搜索框，防止浏览器自动填充历史值
+  document.getElementById('searchInput').value = '';
 
   // 有 GitHub 配置则自动拉取最新词根库
   if (ghConfig) {
