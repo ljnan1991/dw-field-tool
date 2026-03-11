@@ -249,7 +249,7 @@
     <div class="search-box">
       <div style="font-weight:600;font-size:13px;margin-bottom:10px;">中文名称 → 字段 Code 生成</div>
       <div class="search-row">
-        <input id="searchInput" placeholder="输入中文名称，如：近7日交易成交额均值" oninput="onSearchInput()" onkeydown="onSearchKey(event)" />
+        <input id="searchInput" autocomplete="off" placeholder="输入中文名称，如：近7日交易成交额均值" oninput="onSearchInput()" onkeydown="onSearchKey(event)" />
         <button id="btnGenerate" class="btn btn-primary" onclick="generateFromSearch()">生成</button>
       </div>
       <div class="search-suggest" id="searchSuggest"></div>
@@ -259,7 +259,7 @@
       <!-- 批量模式 -->
       <div>
         <div style="font-size:12px;font-weight:600;color:#666;margin-bottom:6px;">批量生成（每行一个中文名称）</div>
-        <textarea class="batch-input" id="batchInput" placeholder="近7日交易成交额&#10;当日结算成交额均值&#10;买家数量"></textarea>
+        <textarea class="batch-input" id="batchInput" autocomplete="off" placeholder="近7日交易成交额&#10;当日结算成交额均值&#10;买家数量"></textarea>
         <div class="flex-end mt8">
           <button class="btn btn-ghost btn-sm" onclick="clearBatch()">清空</button>
           <button class="btn btn-ghost btn-sm" onclick="exportBatch()">导出CSV</button>
