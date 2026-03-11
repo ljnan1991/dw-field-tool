@@ -498,7 +498,7 @@ const DEFAULT_WORDS = [
   { id: 215, code: '90d',      name: '近90天',        cat: 'date', desc: '近90日累计' },
   { id: 235, code: '120d',     name: '近120天',       cat: 'date', desc: '近120日累计' },
   { id: 236, code: '180d',     name: '近180天',       cat: 'date', desc: '近180日累计' },
-  { id: 205, code: '300',      name: '近300天',       cat: 'date', desc: '近300日' },
+  { id: 205, code: '300d',     name: '近300天',       cat: 'date', desc: '近300日' },
   { id: 237, code: '365d',     name: '近365天',       cat: 'date', desc: '近365日累计' },
   { id: 216, code: 'wtd',      name: '周累计(WTD)',   cat: 'date', desc: 'Week To Date' },
   { id: 204, code: 'mtd',      name: '月累计(MTD)',   cat: 'date', desc: 'Month To Date' },
@@ -1155,6 +1155,7 @@ const KEYWORD_MAP = {
   '近90天': '90d', '近90日': '90d', '90日': '90d', '90天': '90d',
   '近120天': '120d', '近120日': '120d', '120天': '120d', '120日': '120d',
   '近180天': '180d', '近180日': '180d', '180天': '180d', '半年': '180d',
+  '近300天': '300d', '近300日': '300d', '300天': '300d', '300日': '300d',
   '近365天': '365d', '近365日': '365d', '365天': '365d', '一年': '365d',
   '本周': 'wtd', '周': 'wtd',
   '本月': 'mtd',
@@ -1220,7 +1221,7 @@ const COMPOUND_KEYWORDS = {
 // 哪些关键词归属 biz（允许多个），哪些归属 agg/metric/date（单个）
 // 规则：先匹配 agg/metric/date，biz 收集所有剩余
 const AGG_CODES   = new Set(['avg','sum','max','min']);
-const DATE_CODES  = new Set(['td','1d','2d','3d','5d','7d','10d','14d','15d','20d','30d','45d','60d','90d','120d','180d','300','365d','1m','l1m','1q','mtd','wtd','qtd','ytd','lwtd','lmtd','lqtd','yoy','mom','std','eod','datetime','date','day','days','hour']);
+const DATE_CODES  = new Set(['td','1d','2d','3d','5d','7d','10d','14d','15d','20d','30d','45d','60d','90d','120d','180d','300d','365d','1m','l1m','1q','mtd','wtd','qtd','ytd','lwtd','lmtd','lqtd','yoy','mom','std','eod','datetime','date','day','days','hour']);
 const METRIC_CODES= new Set(['gmv','amt','price','fee','uv','pv','cr','flag','id','ids','type','level','name','title','url','img','image','video','size','limit','remain','list','tag','label','json','properties','property','detail','comment','reason','result','report','content','value','duration','capacity','style','no','num','quantity','info','status','stock','inv','qty','collect','click','search','access',
   'cnt','score','weight','rate','degree','diff','total','rank','index','top','ratio','pct',
   'ctr','exposure','favorite','range','time']);
