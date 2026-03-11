@@ -684,6 +684,14 @@ function saveHistoryStore() {
   localStorage.setItem('dw_history', JSON.stringify(history));
 }
 
+// 统一的历史记录插入（去重：同 code 先删后插到顶部）
+function addHistory(entry) {
+  const dupIdx = history.findIndex(h => h.code === entry.code);
+  if (dupIdx >= 0) history.splice(dupIdx, 1);
+  history.unshift(entry);
+  if (history.length > 50) history.length = 50;
+}
+
 // ============================================================
 // 词根管理
 // ============================================================
@@ -1010,14 +1018,7 @@ function saveToHistory() {
   const code = parts.join('_');
   const name = names.join(' · ');
   const entry = { code, name, time: new Date().toLocaleTimeString() };
-  if (history.length > 0 && history[0].code === code) {
-    history[0].time = entry.time;
-  } else {
-    const dupIdx = history.findIndex(h => h.code === code);
-    if (dupIdx > 0) history.splice(dupIdx, 1);
-    history.unshift(entry);
-  }
-  if (history.length > 50) history.pop();
+  addHistory(entry);
   saveHistoryStore();
   renderHistory();
 }
@@ -1425,15 +1426,7 @@ function applySuggest() {
   const code = buildCode(parsed);
   const allWords = [...(parsed.biz||[]), parsed.metric, parsed.gran, parsed.agg, parsed.date].filter(Boolean);
   const entry = { code, name: allWords.map(w=>w.name).join(' · '), time: new Date().toLocaleTimeString() };
-  // 去重：同一 code 已在顶部则直接更新时间，否则插入
-  if (history.length > 0 && history[0].code === code) {
-    history[0].time = entry.time;
-  } else {
-    const dupIdx = history.findIndex(h => h.code === code);
-    if (dupIdx > 0) history.splice(dupIdx, 1);
-    history.unshift(entry);
-  }
-  if (history.length > 50) history.pop();
+  addHistory(entry);
   saveHistoryStore();
   renderHistory();
 }
@@ -1530,12 +1523,8 @@ function batchGenerate() {
     const code = buildCode(parsed);
     if (!code) return;
     const allWords = [...(parsed.biz||[]), parsed.metric, parsed.gran, parsed.agg, parsed.date].filter(Boolean);
-    const entry = { code, name: allWords.map(w=>w.name).join(' · '), time: new Date().toLocaleTimeString() };
-    const dupIdx = history.findIndex(h => h.code === code);
-    if (dupIdx >= 0) history.splice(dupIdx, 1);
-    history.unshift(entry);
+    addHistory({ code, name: allWords.map(w=>w.name).join(' · '), time: new Date().toLocaleTimeString() });
   });
-  if (history.length > 50) history.length = 50;
   saveHistoryStore();
   renderHistory();
 }
