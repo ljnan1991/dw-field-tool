@@ -514,7 +514,7 @@ const DEFAULT_WORDS = [
   { id: 221, code: 'lqtd',     name: '上季同期',      cat: 'date', desc: 'Last Quarter To Date' },
   { id: 222, code: 'yoy',      name: '同比',          cat: 'date', desc: 'Year Over Year，与去年同期对比' },
   { id: 223, code: 'mom',      name: '环比',          cat: 'date', desc: 'Month Over Month，与上月对比' },
-  { id: 211, code: 'days',     name: '天数',          cat: 'date', desc: '多天数字段' },
+  { id: 211, code: 'days',     name: '天数',          cat: 'metric', desc: '天数度量，如 deliver_days' },
   { id: 224, code: 'date',     name: '日期',          cat: 'date', desc: '日期字段后缀，如 audit_date' },
   { id: 225, code: 'day',      name: '天',            cat: 'date', desc: '天数，如 deliver_day' },
   { id: 226, code: 'hour',     name: '小时',          cat: 'date', desc: '小时粒度' },
@@ -1221,10 +1221,10 @@ const COMPOUND_KEYWORDS = {
 // 哪些关键词归属 biz（允许多个），哪些归属 agg/metric/date（单个）
 // 规则：先匹配 agg/metric/date，biz 收集所有剩余
 const AGG_CODES   = new Set(['avg','sum','max','min']);
-const DATE_CODES  = new Set(['td','1d','2d','3d','5d','7d','10d','14d','15d','20d','30d','45d','60d','90d','120d','180d','300d','365d','1m','l1m','1q','mtd','wtd','qtd','ytd','lwtd','lmtd','lqtd','yoy','mom','std','eod','datetime','date','day','days','hour']);
+const DATE_CODES  = new Set(['td','1d','2d','3d','5d','7d','10d','14d','15d','20d','30d','45d','60d','90d','120d','180d','300d','365d','1m','l1m','1q','mtd','wtd','qtd','ytd','lwtd','lmtd','lqtd','yoy','mom','std','eod','datetime','date','day','hour']);
 const METRIC_CODES= new Set(['gmv','amt','price','fee','uv','pv','cr','flag','id','ids','type','level','name','title','url','img','image','video','size','limit','remain','list','tag','label','json','properties','property','detail','comment','reason','result','report','content','value','duration','capacity','style','no','num','quantity','info','status','stock','inv','qty','collect','click','search','access',
   'cnt','score','weight','rate','degree','diff','total','rank','index','top','ratio','pct',
-  'ctr','exposure','favorite','range','time']);
+  'ctr','exposure','favorite','range','time','days']);
 
 function smartParse(text) {
   const t = text.trim();
