@@ -1340,8 +1340,16 @@ function smartParse(text) {
 
   // 检测输入中未被任何关键词覆盖的中文字符片段
   const coveredPos = new Array(t.length).fill(false);
-  for (const [kw, pos] of used) {
-    for (let i = pos; i < pos + kw.length; i++) coveredPos[i] = true;
+  for (const [kw] of used) {
+    // 标记该关键词在原文中的【所有出现位置】，避免重复词导致误报"缺少词根"
+    const kwLow = kw.toLowerCase();
+    let searchFrom = 0;
+    while (true) {
+      const p = tl.indexOf(kwLow, searchFrom);
+      if (p === -1) break;
+      for (let i = p; i < p + kw.length; i++) coveredPos[i] = true;
+      searchFrom = p + 1;
+    }
   }
   const unmatched = [];
   let seg = '';
