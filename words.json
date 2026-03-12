@@ -9,7 +9,7 @@
   {
     "id": 2,
     "code": "merc",
-    "name": "商家/卖家/企业家",
+    "name": "商家/卖家/企业卖家",
     "cat": "entity",
     "desc": "Merchant缩写"
   },
