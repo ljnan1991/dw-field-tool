@@ -849,6 +849,19 @@ function buildAutoKeywords() {
       }
     });
   });
+
+  // 动态重建 DATE_CODES 和 METRIC_CODES，确保新增词根自动生效
+  DATE_CODES = new Set([
+    ...words.filter(w => w.cat === 'date').map(w => w.code),
+    'datetime','date','day','hour' // 通用时间关键词保底
+  ]);
+  METRIC_CODES = new Set([
+    ...words.filter(w => w.cat === 'metric' || w.cat === 'base').map(w => w.code),
+    'flag','id','ids','type','level','name','title','url','img','image','video',
+    'size','limit','remain','list','tag','label','json','properties','property',
+    'detail','comment','reason','result','report','content','duration','capacity',
+    'style','no','quantity','info','status' // 通用属性词保底
+  ]);
 }
 
 // ============================================================
@@ -1224,8 +1237,8 @@ const COMPOUND_KEYWORDS = {
 // 哪些关键词归属 biz（允许多个），哪些归属 agg/metric/date（单个）
 // 规则：先匹配 agg/metric/date，biz 收集所有剩余
 const AGG_CODES   = new Set(['avg','sum','max','min']);
-const DATE_CODES  = new Set(['td','1d','2d','3d','5d','7d','10d','14d','15d','20d','30d','45d','60d','90d','120d','180d','300d','365d','1m','lm','l1m','1q','mtd','wtd','qtd','ytd','lwtd','lmtd','lqtd','yoy','mom','std','eod','datetime','date','day','hour']);
-const METRIC_CODES= new Set(['gmv','amt','price','fee','uv','pv','cr','flag','id','ids','type','level','name','title','url','img','image','video','size','limit','remain','list','tag','label','json','properties','property','detail','comment','reason','result','report','content','value','duration','capacity','style','no','num','quantity','info','status','stock','inv','qty','collect','click','search','access',
+let DATE_CODES  = new Set(['td','1d','2d','3d','5d','7d','10d','14d','15d','20d','30d','45d','60d','90d','120d','180d','300d','365d','1m','lm','l1m','1q','mtd','wtd','qtd','ytd','lwtd','lmtd','lqtd','yoy','mom','std','eod','datetime','date','day','hour']);
+let METRIC_CODES= new Set(['gmv','amt','price','fee','uv','pv','cr','flag','id','ids','type','level','name','title','url','img','image','video','size','limit','remain','list','tag','label','json','properties','property','detail','comment','reason','result','report','content','value','duration','capacity','style','no','num','quantity','info','status','stock','inv','qty','collect','click','search','access',
   'cnt','score','weight','rate','degree','diff','total','rank','index','top','ratio','pct',
   'ctr','exposure','favorite','range','time','days']);
 
