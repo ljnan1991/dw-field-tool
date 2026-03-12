@@ -1482,5 +1482,12 @@
     "name": "精选/选择",
     "cat": "entity",
     "desc": ""
+  },
+  {
+    "id": 505,
+    "code": "ente",
+    "name": "企业",
+    "cat": "base",
+    "desc": ""
   }
 ]
