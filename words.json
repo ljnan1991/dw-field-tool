@@ -917,13 +917,6 @@
     "desc": "Last Week To Date"
   },
   {
-    "id": 228,
-    "code": "lmtd",
-    "name": "上月同期",
-    "cat": "date",
-    "desc": "Last Month To Date"
-  },
-  {
     "id": 221,
     "code": "lqtd",
     "name": "上季同期",
