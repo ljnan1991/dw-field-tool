@@ -1454,5 +1454,12 @@
     "name": "时间戳",
     "cat": "metric",
     "desc": "时间类字段，如 create_time、update_time"
+  },
+  {
+    "id": 500,
+    "code": "lm",
+    "name": "上月",
+    "cat": "date",
+    "desc": ""
   }
 ]
