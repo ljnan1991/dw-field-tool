@@ -1299,13 +1299,17 @@ function smartParse(text) {
     }
 
     // 判断类型：date > metric > agg > biz（max/min 默认归 biz）
-    if (DATE_CODES.has(code) && !result.date) {
-      const w = words.find(x => x.code === code && x.cat === 'date');
-      if (w) { result.date = w; continue; }
+    if (DATE_CODES.has(code)) {
+      if (!result.date) {
+        const w = words.find(x => x.code === code && x.cat === 'date');
+        if (w) { result.date = w; continue; }
+      } else { continue; } // 日期槽已满，跳过，不降级到 biz
     }
-    if (METRIC_CODES.has(code) && !result.metric) {
-      const w = words.find(x => x.code === code && (x.cat === 'base' || x.cat === 'metric'));
-      if (w) { result.metric = w; continue; }
+    if (METRIC_CODES.has(code)) {
+      if (!result.metric) {
+        const w = words.find(x => x.code === code && (x.cat === 'base' || x.cat === 'metric'));
+        if (w) { result.metric = w; continue; }
+      } else { continue; } // 指标槽已满，跳过，不降级到 biz
     }
     // gran：动态匹配 cat=gran 的词根
     if (!result.gran) {
@@ -1858,10 +1862,10 @@ setTimeout(() => { document.getElementById('searchInput').value = ''; }, 100);
     <div class="modal-field">
       <label>分类</label>
       <select id="swm-cat" style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:6px;font-size:13px;outline:none;">
-        <option value="base">基础指标词根</option>
-        <option value="metric">度量词根</option>
         <option value="entity">实体词根</option>
         <option value="process">业务过程词根</option>
+        <option value="base">基础指标词根</option>
+        <option value="metric">度量词根</option>
         <option value="gran">聚合粒度</option>
         <option value="agg">聚合修饰词</option>
         <option value="date">日期修饰词</option>
