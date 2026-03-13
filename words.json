@@ -1529,7 +1529,7 @@
     "id": 512,
     "code": "break",
     "name": "破",
-    "cat": "base",
+    "cat": "process",
     "desc": ""
   }
 ]
