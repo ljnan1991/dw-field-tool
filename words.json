@@ -1545,5 +1545,12 @@
     "name": "破十万",
     "cat": "process",
     "desc": ""
+  },
+  {
+    "id": 515,
+    "code": "onsale",
+    "name": "动销",
+    "cat": "process",
+    "desc": ""
   }
 ]
