@@ -825,6 +825,11 @@ function resetWords() {
   renderWordList();
 }
 
+// 清洗词根名称，去掉 /英文code 和（括号说明），只留核心中文名
+function cn(name) {
+  return name.replace(/\/[a-zA-Z][a-zA-Z0-9]*/g, '').replace(/[（(][^）)]*[）)]/g, '').trim();
+}
+
 // 从词根中文名自动推导关键词映射
 // 规则：取中文名中用 / 或空格分隔的每个部分，去掉括号注释，提取纯中文片段（1-6字）作为关键词
 // KEYWORD_MAP 中已有的词会覆盖此处推导的（优先级：KEYWORD_MAP > autoKeywords）
@@ -984,11 +989,11 @@ function removeBizChip(e, id) {
 function updateResult() {
   const parts = [];
   const names = [];
-  slots.biz.forEach(w => { parts.push(w.code); names.push(w.name); });
-  if (slots.metric) { parts.push(slots.metric.code); names.push(slots.metric.name); }
-  if (slots.gran)   { parts.push(slots.gran.code);   names.push(slots.gran.name); }
-  if (slots.agg)    { parts.push(slots.agg.code);    names.push(slots.agg.name); }
-  if (slots.date)   { parts.push(slots.date.code);   names.push(slots.date.name); }
+  slots.biz.forEach(w => { parts.push(w.code); names.push(cn(w.name)); });
+  if (slots.metric) { parts.push(slots.metric.code); names.push(cn(slots.metric.name)); }
+  if (slots.gran)   { parts.push(slots.gran.code);   names.push(cn(slots.gran.name)); }
+  if (slots.agg)    { parts.push(slots.agg.code);    names.push(cn(slots.agg.name)); }
+  if (slots.date)   { parts.push(slots.date.code);   names.push(cn(slots.date.name)); }
 
   const code = parts.join('_');
   document.getElementById('resultCode').textContent = code || '—';
@@ -1020,10 +1025,10 @@ function clearComposer() {
 function saveToHistory() {
   const parts = [];
   const names = [];
-  slots.biz.forEach(w => { parts.push(w.code); names.push(w.name); });
-  if (slots.metric) { parts.push(slots.metric.code); names.push(slots.metric.name); }
-  if (slots.agg)    { parts.push(slots.agg.code);    names.push(slots.agg.name); }
-  if (slots.date)   { parts.push(slots.date.code);   names.push(slots.date.name); }
+  slots.biz.forEach(w => { parts.push(w.code); names.push(cn(w.name)); });
+  if (slots.metric) { parts.push(slots.metric.code); names.push(cn(slots.metric.name)); }
+  if (slots.agg)    { parts.push(slots.agg.code);    names.push(cn(slots.agg.name)); }
+  if (slots.date)   { parts.push(slots.date.code);   names.push(cn(slots.date.name)); }
 
   if (slots.biz.length === 0 || !slots.metric) {
     alert('请至少选择「业务修饰词」和「原子指标词根」');
@@ -1403,7 +1408,7 @@ function showSuggest(text) {
   if (!code && !unmatchedWarn) { el.style.display = 'none'; el._parsed = null; return; }
 
   const allWords = [...(parsed.biz||[]), parsed.metric, parsed.gran, parsed.agg, parsed.date].filter(Boolean);
-  const name = allWords.map(w => w.name).join(' · ');
+  const name = allWords.map(w => cn(w.name)).join('·');
   const parts = [];
   (parsed.biz||[]).forEach(w => {
     const cls = CAT_CONFIG[w.cat] ? CAT_CONFIG[w.cat].tagCls : 'tag-entity';
@@ -1451,7 +1456,7 @@ function applySuggest() {
   el.style.display = 'none';
   const code = buildCode(parsed);
   const allWords = [...(parsed.biz||[]), parsed.metric, parsed.gran, parsed.agg, parsed.date].filter(Boolean);
-  const entry = { code, name: allWords.map(w=>w.name).join(' · '), time: new Date().toLocaleTimeString() };
+  const entry = { code, name: allWords.map(w=>cn(w.name)).join('·'), time: new Date().toLocaleTimeString() };
   addHistory(entry);
   saveHistoryStore();
   renderHistory();
@@ -1614,7 +1619,7 @@ function batchGenerate() {
     const code = buildCode(parsed);
     if (!code) return;
     const allWords = [...(parsed.biz||[]), parsed.metric, parsed.gran, parsed.agg, parsed.date].filter(Boolean);
-    addHistory({ code, name: allWords.map(w=>w.name).join(' · '), time: new Date().toLocaleTimeString() });
+    addHistory({ code, name: allWords.map(w=>cn(w.name)).join('·'), time: new Date().toLocaleTimeString() });
   });
   saveHistoryStore();
   renderHistory();
