@@ -267,26 +267,31 @@
     </div>
 
     <!-- 词根类型说明 -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:8px;">
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:8px;">
       <div style="background:#fff;border-radius:7px;padding:8px 11px;border:1px solid #eee;border-top:2px solid #4096ff;">
         <div style="font-size:11px;font-weight:600;color:#0958d9;margin-bottom:3px;">业务修饰词</div>
         <div style="font-size:11px;color:#555;">限定业务范围</div>
-        <div style="font-size:10px;color:#bbb;margin-top:3px;letter-spacing:0.3px;">new · active · valid · first</div>
+        <div id="type-ex-biz" style="font-size:10px;color:#bbb;margin-top:3px;letter-spacing:0.3px;">...</div>
       </div>
       <div style="background:#fff;border-radius:7px;padding:8px 11px;border:1px solid #eee;border-top:2px solid #08979c;">
         <div style="font-size:11px;font-weight:600;color:#006d75;margin-bottom:3px;">度量词根</div>
         <div style="font-size:11px;color:#555;">描述统计口径</div>
-        <div style="font-size:10px;color:#bbb;margin-top:3px;letter-spacing:0.3px;">cnt · amt · gmv · rate</div>
+        <div id="type-ex-metric" style="font-size:10px;color:#bbb;margin-top:3px;letter-spacing:0.3px;">...</div>
+      </div>
+      <div style="background:#fff;border-radius:7px;padding:8px 11px;border:1px solid #eee;border-top:2px solid #874d00;">
+        <div style="font-size:11px;font-weight:600;color:#874d00;margin-bottom:3px;">聚合粒度</div>
+        <div style="font-size:11px;color:#555;">指标聚合的粒度</div>
+        <div style="font-size:10px;color:#bbb;margin-top:3px;letter-spacing:0.3px;">category · brand · supply_type</div>
       </div>
       <div style="background:#fff;border-radius:7px;padding:8px 11px;border:1px solid #eee;border-top:2px solid #c41d7f;">
         <div style="font-size:11px;font-weight:600;color:#c41d7f;margin-bottom:3px;">聚合修饰词</div>
         <div style="font-size:11px;color:#555;">描述聚合计算方式</div>
-        <div style="font-size:10px;color:#bbb;margin-top:3px;letter-spacing:0.3px;">sum · avg · max · min</div>
+        <div id="type-ex-agg" style="font-size:10px;color:#bbb;margin-top:3px;letter-spacing:0.3px;">...</div>
       </div>
       <div style="background:#fff;border-radius:7px;padding:8px 11px;border:1px solid #eee;border-top:2px solid #389e0d;">
         <div style="font-size:11px;font-weight:600;color:#389e0d;margin-bottom:3px;">日期修饰词</div>
         <div style="font-size:11px;color:#555;">描述统计时间窗口</div>
-        <div style="font-size:10px;color:#bbb;margin-top:3px;letter-spacing:0.3px;">1d · 7d · 30d · td · mtd</div>
+        <div id="type-ex-date" style="font-size:10px;color:#bbb;margin-top:3px;letter-spacing:0.3px;">...</div>
       </div>
     </div>
 
@@ -306,9 +311,11 @@
         <input id="composerInput" autocomplete="new-password" placeholder="输入中文名称自动填充槽位，如：近7天净GMV均值"
           style="flex:1;padding:5px 10px;border:1px solid #ddd;border-radius:6px;font-size:12px;outline:none;color:#333;"
           onfocus="this.style.borderColor='#4e6ef2'" onblur="this.style.borderColor='#ddd'"
-          onkeydown="if(event.key==='Enter')fillComposerFromInput()" />
+          oninput="onComposerInput()"
+          onkeydown="if(event.key==='Escape')document.getElementById('composerSuggest').style.display='none'" />
         <button class="btn btn-ghost btn-sm" onclick="fillComposerFromInput()">解析填充</button>
       </div>
+      <div class="search-suggest" id="composerSuggest"></div>
       <div class="composer-body">
 
         <!-- 结果预览 -->
@@ -335,7 +342,7 @@
             </div>
             <div class="slot-sep">_</div>
             <div class="slot">
-              <div class="slot-label">基础指标词根 <span class="badge badge-opt">可选</span></div>
+              <div class="slot-label">度量词根 <span class="badge badge-opt">可选</span></div>
               <div class="slot-box optional" id="slot-metric" onclick="openSelector('metric')">
                 <span id="slot-metric-text">点击选择</span>
               </div>
@@ -686,6 +693,7 @@ function init() {
   renderWordList();
   renderHistory();
   updateResult();
+  initTypeExamples();
   // 强制清空搜索框，防止浏览器自动填充历史值
   document.getElementById('searchInput').value = '';
 
@@ -1498,12 +1506,73 @@ function fillComposerFromInput() {
     setTimeout(() => { inp.style.borderColor = '#ddd'; }, 1500);
     return;
   }
-  slots = { biz: [...(parsed.biz||[])], metric: parsed.metric, gran: parsed.gran, agg: parsed.agg, date: parsed.date };
+  _applyComposerParsed(parsed, val);
+  inp.style.borderColor = '#52c41a';
+  setTimeout(() => { inp.style.borderColor = '#ddd'; }, 1500);
+}
+
+function onComposerInput() {
+  const val = document.getElementById('composerInput').value.trim();
+  const el = document.getElementById('composerSuggest');
+  if (!val) { el.style.display = 'none'; return; }
+  const parsed = smartParse(val);
+  const code = buildCode(parsed);
+  const unmatchedWarn = (parsed.unmatched||[]).length > 0
+    ? `<div style="color:#ff4d4f;font-size:11px;margin-top:4px;">缺少词根：${parsed.unmatched.map(w=>`「${w}」`).join(' ')}</div>`
+    : '';
+  if (!code && !unmatchedWarn) { el.style.display = 'none'; return; }
+  const allWords = [...(parsed.biz||[]), parsed.metric, parsed.gran, parsed.agg, parsed.date].filter(Boolean);
+  const name = allWords.map(w => cn(w.name)).join('·');
+  const hasBase = parsed.metric && parsed.metric.cat === 'metric';
+  const bizCount = (parsed.biz||[]).length;
+  const indicatorType = hasBase
+    ? (bizCount <= 1
+        ? `<span style="background:#e6fffb;color:#006d75;border:1px solid #87e8de;border-radius:10px;padding:1px 7px;font-size:10px;font-weight:600;">基础指标</span>`
+        : `<span style="background:#f9f0ff;color:#531dab;border:1px solid #d3adf7;border-radius:10px;padding:1px 7px;font-size:10px;font-weight:600;">派生指标</span>`)
+    : '';
+  const clickable = (parsed.unmatched||[]).length === 0 && code;
+  el._parsed = clickable ? parsed : null;
+  el._text = val;
+  el.innerHTML = `
+    <div class="suggest-item" ${clickable ? 'onclick="applyComposerSuggest()"' : 'style="cursor:default;"'}>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="suggest-code" style="${!clickable ? 'opacity:0.4;' : ''}">${code || '—'}</span>
+        ${indicatorType}
+      </div>
+      ${name ? `<span class="suggest-name">${name}</span>` : ''}
+      ${unmatchedWarn}
+    </div>`;
+  el.style.display = 'block';
+}
+
+function applyComposerSuggest() {
+  const el = document.getElementById('composerSuggest');
+  if (!el._parsed) return;
+  _applyComposerParsed(el._parsed, el._text || '');
+  el.style.display = 'none';
+}
+
+function _applyComposerParsed(parsed, inputText) {
+  slots = { biz:[...(parsed.biz||[])], metric:parsed.metric, gran:parsed.gran, agg:parsed.agg, date:parsed.date };
   updateSlotUI('biz');
   ['metric','gran','agg','date'].forEach(updateSlotUI);
   updateResult();
-  inp.style.borderColor = '#52c41a';
-  setTimeout(() => { inp.style.borderColor = '#ddd'; }, 1500);
+  const code = buildCode(parsed);
+  if (code) {
+    addHistory({ code, name: inputText, time: new Date().toLocaleTimeString() });
+    saveHistoryStore();
+    renderHistory();
+  }
+}
+
+function initTypeExamples() {
+  const targets = { biz: 'type-ex-biz', metric: 'type-ex-metric', agg: 'type-ex-agg', date: 'type-ex-date' };
+  Object.entries(targets).forEach(([cat, id]) => {
+    const pool = words.filter(w => w.cat === cat);
+    const sample = [...pool].sort(() => Math.random() - 0.5).slice(0, 5);
+    const el = document.getElementById(id);
+    if (el && sample.length) el.textContent = sample.map(w => w.code).join(' · ');
+  });
 }
 
 // 快速打开新增词根表单（用搜索词预填中文名）
@@ -1692,6 +1761,9 @@ function exportBatch() {
 document.addEventListener('click', e => {
   if (!e.target.closest('#searchSuggest') && !e.target.closest('#searchInput') && !e.target.closest('#btnGenerate')) {
     document.getElementById('searchSuggest').style.display = 'none';
+  }
+  if (!e.target.closest('#composerSuggest') && !e.target.closest('#composerInput')) {
+    document.getElementById('composerSuggest').style.display = 'none';
   }
 });
 
