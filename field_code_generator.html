@@ -1455,8 +1455,8 @@ function applySuggest() {
   updateResult();
   el.style.display = 'none';
   const code = buildCode(parsed);
-  const allWords = [...(parsed.biz||[]), parsed.metric, parsed.gran, parsed.agg, parsed.date].filter(Boolean);
-  const entry = { code, name: allWords.map(w=>cn(w.name)).join('·'), time: new Date().toLocaleTimeString() };
+  const inputText = document.getElementById('searchInput').value.trim();
+  const entry = { code, name: inputText, time: new Date().toLocaleTimeString() };
   addHistory(entry);
   saveHistoryStore();
   renderHistory();
@@ -1618,8 +1618,7 @@ function batchGenerate() {
     if ((parsed.unmatched||[]).length > 0) return;
     const code = buildCode(parsed);
     if (!code) return;
-    const allWords = [...(parsed.biz||[]), parsed.metric, parsed.gran, parsed.agg, parsed.date].filter(Boolean);
-    addHistory({ code, name: allWords.map(w=>cn(w.name)).join('·'), time: new Date().toLocaleTimeString() });
+    addHistory({ code, name: line.trim(), time: new Date().toLocaleTimeString() });
   });
   saveHistoryStore();
   renderHistory();
