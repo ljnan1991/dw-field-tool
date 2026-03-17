@@ -221,9 +221,7 @@
         </div>
         <div class="form-row">
           <select id="f-cat">
-            <option value="entity">修饰词根</option>
-            <option value="process">业务过程词根</option>
-            <option value="base">基础指标词根</option>
+            <option value="biz">业务修饰词</option>
             <option value="metric">度量词根</option>
             <option value="gran">聚合粒度</option>
             <option value="agg">聚合修饰词</option>
@@ -265,6 +263,33 @@
           <button class="btn btn-primary btn-sm" onclick="batchGenerate()">批量生成</button>
         </div>
         <div class="batch-result-list" id="batchResults"></div>
+      </div>
+    </div>
+
+    <!-- 词根类型说明 -->
+    <div style="display:flex;flex-wrap:wrap;gap:10px;background:#f7f9ff;border-radius:8px;padding:9px 14px;margin-bottom:8px;font-size:11px;line-height:1.8;border:1px solid #e8ecf5;">
+      <div style="display:flex;align-items:center;gap:5px;">
+        <span class="tag tag-entity" style="padding:1px 8px;white-space:nowrap;">业务修饰词</span>
+        <span style="color:#666;">限定业务范围</span>
+        <span style="color:#bbb;">new · active · valid · first</span>
+      </div>
+      <span style="color:#dce0ea;align-self:center;">｜</span>
+      <div style="display:flex;align-items:center;gap:5px;">
+        <span class="tag tag-base" style="padding:1px 8px;white-space:nowrap;">度量词根</span>
+        <span style="color:#666;">描述统计口径</span>
+        <span style="color:#bbb;">cnt · amt · gmv · rate</span>
+      </div>
+      <span style="color:#dce0ea;align-self:center;">｜</span>
+      <div style="display:flex;align-items:center;gap:5px;">
+        <span class="tag tag-agg" style="padding:1px 8px;white-space:nowrap;">聚合修饰词</span>
+        <span style="color:#666;">描述聚合计算方式</span>
+        <span style="color:#bbb;">sum · avg · max · min</span>
+      </div>
+      <span style="color:#dce0ea;align-self:center;">｜</span>
+      <div style="display:flex;align-items:center;gap:5px;">
+        <span class="tag tag-date" style="padding:1px 8px;white-space:nowrap;">日期修饰词</span>
+        <span style="color:#666;">描述统计时间窗口</span>
+        <span style="color:#bbb;">1d · 7d · 30d · td · mtd</span>
       </div>
     </div>
 
