@@ -1583,15 +1583,15 @@
   },
   {
     "id": 520,
-    "code": "一级",
-    "name": "lv1",
+    "code": "lv1",
+    "name": "一级",
     "cat": "gran",
     "desc": ""
   },
   {
     "id": 521,
-    "code": "类目",
-    "name": "category",
+    "code": "category",
+    "name": "类目",
     "cat": "gran",
     "desc": ""
   },
