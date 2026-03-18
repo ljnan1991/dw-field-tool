@@ -71,18 +71,16 @@
   .tag { display: inline-flex; align-items: center; gap: 3px; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; border: 1px solid transparent; transition: all .15s; white-space: nowrap; }
   .tag:hover { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
   .tag.selected { font-weight: 600; }
-  .tag-entity { background: #e6f4ff; color: #0958d9; border-color: #91caff; }
-  .tag-entity.selected { background: #0958d9; color: #fff; border-color: #0958d9; }
-  .tag-process { background: #f9f0ff; color: #531dab; border-color: #d3adf7; }
-  .tag-process.selected { background: #531dab; color: #fff; border-color: #531dab; }
+  .tag-biz { background: #e6f4ff; color: #0958d9; border-color: #91caff; }
+  .tag-biz.selected { background: #0958d9; color: #fff; border-color: #0958d9; }
   .tag-agg { background: #fff0f6; color: #c41d7f; border-color: #ffadd2; }
   .tag-agg.selected { background: #c41d7f; color: #fff; border-color: #c41d7f; }
   .tag-date { background: #f6ffed; color: #389e0d; border-color: #b7eb8f; }
   .tag-date.selected { background: #52c41a; color: #fff; border-color: #52c41a; }
   .tag-metric { background: #fffbe6; color: #d46b08; border-color: #ffe58f; }
   .tag-metric.selected { background: #fa8c16; color: #fff; border-color: #fa8c16; }
-  .tag-base { background: #e6fffb; color: #006d75; border-color: #87e8de; }
-  .tag-base.selected { background: #006d75; color: #fff; border-color: #006d75; }
+  .tag-metric-val { background: #e6fffb; color: #006d75; border-color: #87e8de; }
+  .tag-metric-val.selected { background: #006d75; color: #fff; border-color: #006d75; }
   .tag-gran { background: #fff7e6; color: #874d00; border-color: #ffd591; }
   .tag-gran.selected { background: #873800; color: #fff; border-color: #873800; }
 
@@ -95,12 +93,10 @@
   /* 词根管理列表 */
   .cat-section { margin-bottom: 10px; }
   .cat-title { font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between; }
-  .cat-entity .cat-title  { background: #e6f4ff; color: #0958d9; }
-  .cat-process .cat-title { background: #f9f0ff; color: #531dab; }
+  .cat-biz .cat-title    { background: #e6f4ff; color: #0958d9; }
   .cat-agg .cat-title     { background: #fff0f6; color: #c41d7f; }
   .cat-date .cat-title    { background: #f6ffed; color: #389e0d; }
-  .cat-metric .cat-title  { background: #fffbe6; color: #d46b08; }
-  .cat-base .cat-title    { background: #e6fffb; color: #006d75; }
+  .cat-metric .cat-title  { background: #e6fffb; color: #006d75; }
   .cat-gran .cat-title    { background: #fff7e6; color: #874d00; }
 
   .word-item { display: flex; align-items: center; gap: 6px; padding: 4px 6px; border-radius: 4px; margin-bottom: 3px; white-space: nowrap; }
@@ -328,8 +324,8 @@
         <!-- 命名结构 -->
         <div class="tip">
           命名规范：<span style="color:#999">每个部分均可选，顺序固定</span><br>
-          <strong style="color:#0958d9">[业务修饰词]</strong> _ <strong style="color:#006d75">[基础指标词根]</strong> _ <strong style="color:#874d00">[聚合粒度]</strong> _ <strong style="color:#c41d7f">[聚合修饰词]</strong> _ <strong style="color:#389e0d">[日期修饰词]</strong><br>
-          <span style="color:#aaa;font-size:10px;">· 基础指标 = 单个业务修饰词 + 基础指标词根，如 <code>trade_amt</code> &nbsp;· 派生指标 = 多个修饰词 + 基础指标词根，如 <code>platform_buyer_new_trade_amt</code></span>
+          <strong style="color:#0958d9">[业务修饰词]</strong> _ <strong style="color:#006d75">[度量词根]</strong> _ <strong style="color:#874d00">[聚合粒度]</strong> _ <strong style="color:#c41d7f">[聚合修饰词]</strong> _ <strong style="color:#389e0d">[日期修饰词]</strong><br>
+          <span style="color:#aaa;font-size:10px;">· 基础指标 = 单个业务修饰词 + 度量词根，如 <code>trade_amt</code> &nbsp;· 派生指标 = 多个修饰词 + 度量词根，如 <code>platform_buyer_new_trade_amt</code></span>
         </div>
 
         <div class="naming-structure-wrap">
@@ -405,7 +401,7 @@
 // 词根数据来源：基于 du_shucang.ads_rpt_trd_spu_base_df 表 985 个字段分析（2026-03-09）
 // 同一词根有多个含义时，取出现次数最多的类型作为主类型
 const DEFAULT_WORDS = [
-  // ── 实体词根（entity）：描述涉及的是什么对象 ─────────────
+  // ── 业务修饰词（biz）：描述涉及的是什么对象 ──────────────
   { id:   1, code: 'spu',      name: 'SPU',       cat: 'biz', desc: '标准产品单元' },
   { id:   2, code: 'merc',     name: '商家',       cat: 'biz', desc: 'Merchant缩写' },
   { id:   3, code: 'subord',   name: '子订单',     cat: 'biz', desc: '子订单或附属订单' },
@@ -437,7 +433,7 @@ const DEFAULT_WORDS = [
   { id:  83, code: 'prt',      name: '合伙人',     cat: 'biz', desc: 'Partner缩写' },
   { id:  87, code: 'pdp',      name: '商详/商品详情页', cat: 'biz', desc: 'Product Detail Page，商品详情页' },
 
-  // ── 业务过程词根（process）：描述发生了什么动作/状态 ─────
+  // ── 业务修饰词续（biz）：描述发生了什么动作/状态 ─────────
   { id:   4, code: 'operate',  name: '运营',       cat: 'biz', desc: '运营动作' },
   { id:   5, code: 'bid',      name: '出价/竞价',  cat: 'biz', desc: '广告出价或竞价行为' },
   { id:   8, code: 'new',      name: '新',          cat: 'biz', desc: '新增/新品状态' },
@@ -609,7 +605,7 @@ const DEFAULT_WORDS = [
   { id: 350, code: 'num',        name: '数量',         cat: 'biz', desc: '通用数量，如 sku_num' },
   { id: 352, code: 'info',       name: '信息',         cat: 'biz', desc: '综合信息字段' },
 
-  // ── 补充实体词根（entity）────────────────────────────────────
+  // ── 补充业务修饰词（biz）─────────────────────────────────────
   { id: 353, code: 'store',      name: '店铺/门店',    cat: 'biz', desc: '线上或线下店铺' },
   { id: 354, code: 'supplier',   name: '供应商',       cat: 'biz', desc: '商品供应商实体' },
   { id: 355, code: 'item',       name: '单品/商品项',  cat: 'biz', desc: '单个商品条目，如 platform_item' },
@@ -618,7 +614,7 @@ const DEFAULT_WORDS = [
   { id: 358, code: 'sub',        name: '子级/子类目',  cat: 'biz', desc: '子分类或子层级，如 sub_category' },
   { id: 359, code: 'co',         name: '联名/合作',    cat: 'biz', desc: '联名品牌或合作方，如 co_brand' },
 
-  // ── 补充业务过程词根（process）───────────────────────────────
+  // ── 补充业务修饰词续（biz）───────────────────────────────────
   { id: 360, code: 'flash',      name: '闪购',         cat: 'biz', desc: '限时闪购/闪电直发行为' },
   { id: 361, code: 'virtual',    name: '虚拟',         cat: 'biz', desc: '虚拟商品或虚拟行为标识' },
   { id: 362, code: 'cart',       name: '加购/购物车',  cat: 'biz', desc: '加入购物车行为' },
@@ -634,8 +630,8 @@ const DEFAULT_WORDS = [
 ];
 
 const CAT_CONFIG = {
-  biz:    { label: '业务修饰词',   tagCls: 'tag-entity',  color: '#0958d9' },
-  metric: { label: '度量词根',     tagCls: 'tag-base',    color: '#006d75' },
+  biz:    { label: '业务修饰词',   tagCls: 'tag-biz',        color: '#0958d9' },
+  metric: { label: '度量词根',     tagCls: 'tag-metric-val', color: '#006d75' },
   gran:   { label: '聚合粒度',     tagCls: 'tag-gran',    color: '#874d00' },
   agg:    { label: '聚合修饰词',   tagCls: 'tag-agg',     color: '#c41d7f' },
   date:   { label: '日期修饰词',   tagCls: 'tag-date',    color: '#389e0d' },
@@ -1454,10 +1450,10 @@ function showSuggest(text) {
   const name = allWords.map(w => cn(w.name)).join('·');
   const parts = [];
   (parsed.biz||[]).forEach(w => {
-    const cls = CAT_CONFIG[w.cat] ? CAT_CONFIG[w.cat].tagCls : 'tag-entity';
+    const cls = CAT_CONFIG[w.cat] ? CAT_CONFIG[w.cat].tagCls : 'tag-biz';
     parts.push(`<span class="tag ${cls}" style="padding:1px 5px;font-size:11px;">${w.code}</span>`);
   });
-  if (parsed.metric) { const cls = CAT_CONFIG[parsed.metric.cat]?.tagCls || 'tag-base'; parts.push(`<span class="tag ${cls}" style="padding:1px 5px;font-size:11px;">${parsed.metric.code}</span>`); }
+  if (parsed.metric) { const cls = CAT_CONFIG[parsed.metric.cat]?.tagCls || 'tag-metric-val'; parts.push(`<span class="tag ${cls}" style="padding:1px 5px;font-size:11px;">${parsed.metric.code}</span>`); }
   if (parsed.gran)   parts.push(`<span class="tag tag-gran" style="padding:1px 5px;font-size:11px;">${parsed.gran.code}</span>`);
   if (parsed.agg)    parts.push(`<span class="tag tag-agg" style="padding:1px 5px;font-size:11px;">${parsed.agg.code}</span>`);
   if (parsed.date)   parts.push(`<span class="tag tag-date" style="padding:1px 5px;font-size:11px;">${parsed.date.code}</span>`);
@@ -1989,9 +1985,7 @@ setTimeout(() => { document.getElementById('searchInput').value = ''; }, 100);
     <div class="modal-field">
       <label>分类</label>
       <select id="swm-cat" style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:6px;font-size:13px;outline:none;">
-        <option value="entity">修饰词根</option>
-        <option value="process">业务过程词根</option>
-        <option value="base">基础指标词根</option>
+        <option value="biz">业务修饰词</option>
         <option value="metric">度量词根</option>
         <option value="gran">聚合粒度</option>
         <option value="agg">聚合修饰词</option>
