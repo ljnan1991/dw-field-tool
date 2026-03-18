@@ -1312,7 +1312,7 @@
     "id": 350,
     "code": "num",
     "name": "数量",
-    "cat": "biz",
+    "cat": "metric",
     "desc": "通用数量，如 sku_num"
   },
   {
