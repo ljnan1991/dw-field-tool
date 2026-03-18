@@ -689,7 +689,7 @@
     "id": 113,
     "code": "index",
     "name": "指数",
-    "cat": "biz",
+    "cat": "metric",
     "desc": "综合指数类指标"
   },
   {
@@ -1052,7 +1052,7 @@
   {
     "id": 314,
     "code": "collect",
-    "name": "收藏数",
+    "name": "收藏",
     "cat": "biz",
     "desc": "收藏/关注次数"
   },
@@ -1073,9 +1073,9 @@
   {
     "id": 317,
     "code": "click",
-    "name": "点击数",
+    "name": "点击",
     "cat": "biz",
-    "desc": "点击次数"
+    "desc": ""
   },
   {
     "id": 318,
@@ -1130,7 +1130,7 @@
     "id": 325,
     "code": "qty",
     "name": "库存数量",
-    "cat": "biz",
+    "cat": "metric",
     "desc": "库存件数，如 inv_qty"
   },
   {
@@ -1246,13 +1246,6 @@
     "desc": "Conversion Rate"
   },
   {
-    "id": 342,
-    "code": "quantity",
-    "name": "数量(全称)",
-    "cat": "biz",
-    "desc": "件数/数量"
-  },
-  {
     "id": 343,
     "code": "no",
     "name": "编号",
@@ -1305,7 +1298,7 @@
     "id": 350,
     "code": "num",
     "name": "数量",
-    "cat": "biz",
+    "cat": "metric",
     "desc": "通用数量，如 sku_num"
   },
   {
