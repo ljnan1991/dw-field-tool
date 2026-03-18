@@ -602,6 +602,13 @@
     "desc": "最低/最小限定，如最低出价"
   },
   {
+    "id": 86,
+    "code": "pay",
+    "name": "支付",
+    "cat": "biz",
+    "desc": "支付行为，如支付金额、支付笔数"
+  },
+  {
     "id": 104,
     "code": "avg",
     "name": "平均值",
@@ -632,7 +639,7 @@
   {
     "id": 101,
     "code": "cnt",
-    "name": "数量/计数/数/次数/次/张",
+    "name": "数量/计数",
     "cat": "metric",
     "desc": "某类对象的个数"
   },
@@ -826,6 +833,13 @@
     "desc": "近180日累计"
   },
   {
+    "id": 205,
+    "code": "300",
+    "name": "近300天",
+    "cat": "date",
+    "desc": "近300日"
+  },
+  {
     "id": 237,
     "code": "365d",
     "name": "近365天",
@@ -903,6 +917,13 @@
     "desc": "Last Week To Date"
   },
   {
+    "id": 228,
+    "code": "lmtd",
+    "name": "上月同期",
+    "cat": "date",
+    "desc": "Last Month To Date"
+  },
+  {
     "id": 221,
     "code": "lqtd",
     "name": "上季同期",
@@ -934,7 +955,7 @@
     "id": 224,
     "code": "date",
     "name": "日期",
-    "cat": "biz",
+    "cat": "date",
     "desc": "日期字段后缀，如 audit_date"
   },
   {
@@ -954,8 +975,8 @@
   {
     "id": 209,
     "code": "datetime",
-    "name": "时间",
-    "cat": "biz",
+    "name": "日期时间",
+    "cat": "date",
     "desc": "精确到时分秒的时间戳字段"
   },
   {
@@ -1305,7 +1326,7 @@
     "id": 350,
     "code": "num",
     "name": "数量",
-    "cat": "metric",
+    "cat": "biz",
     "desc": "通用数量，如 sku_num"
   },
   {
@@ -1428,178 +1449,10 @@
     "desc": "价格区间等范围类字段，如 price_range"
   },
   {
-    "id": 500,
-    "code": "lm",
-    "name": "上月",
+    "id": 369,
+    "code": "time",
+    "name": "时间戳",
     "cat": "date",
-    "desc": ""
-  },
-  {
-    "id": 501,
-    "code": "internal",
-    "name": "国内/内部",
-    "cat": "process",
-    "desc": ""
-  },
-  {
-    "id": 502,
-    "code": "share",
-    "name": "分享",
-    "cat": "entity",
-    "desc": ""
-  },
-  {
-    "id": 503,
-    "code": "wear",
-    "name": "穿搭",
-    "cat": "entity",
-    "desc": ""
-  },
-  {
-    "id": 504,
-    "code": "selection",
-    "name": "精选/选择",
-    "cat": "entity",
-    "desc": ""
-  },
-  {
-    "id": 505,
-    "code": "enter",
-    "name": "企业",
-    "cat": "process",
-    "desc": ""
-  },
-  {
-    "id": 506,
-    "code": "imag",
-    "name": "图文",
-    "cat": "entity",
-    "desc": ""
-  },
-  {
-    "id": 507,
-    "code": "page",
-    "name": "页",
-    "cat": "entity",
-    "desc": ""
-  },
-  {
-    "id": 508,
-    "code": "over",
-    "name": "海外",
-    "cat": "process",
-    "desc": ""
-  },
-  {
-    "id": 509,
-    "code": "eop",
-    "name": "期末",
-    "cat": "date",
-    "desc": "end of period"
-  },
-  {
-    "id": 510,
-    "code": "hsale",
-    "name": "高销",
-    "cat": "process",
-    "desc": "high sales"
-  },
-  {
-    "id": 511,
-    "code": "million",
-    "name": "百万",
-    "cat": "process",
-    "desc": ""
-  },
-  {
-    "id": 512,
-    "code": "break",
-    "name": "破",
-    "cat": "process",
-    "desc": ""
-  },
-  {
-    "id": 513,
-    "code": "break10thousand",
-    "name": "破万/破w",
-    "cat": "process",
-    "desc": ""
-  },
-  {
-    "id": 514,
-    "code": "break100thousand",
-    "name": "破十万/破10万/破10w",
-    "cat": "process",
-    "desc": ""
-  },
-  {
-    "id": 515,
-    "code": "onsale",
-    "name": "动销",
-    "cat": "process",
-    "desc": ""
-  },
-  {
-    "id": 516,
-    "code": "pa",
-    "name": "实付",
-    "cat": "process",
-    "desc": ""
-  },
-  {
-    "id": 517,
-    "code": "only",
-    "name": "整",
-    "cat": "entity",
-    "desc": ""
-  },
-  {
-    "id": 518,
-    "code": "test",
-    "name": "测试",
-    "cat": "entity",
-    "desc": ""
-  },
-  {
-    "id": 86,
-    "code": "pay",
-    "name": "支付",
-    "cat": "biz",
-    "desc": "支付行为，如支付金额、支付笔数"
-  },
-  {
-    "id": 228,
-    "code": "lmtd",
-    "name": "上月同期",
-    "cat": "date",
-    "desc": "Last Month To Date"
-  },
-  {
-    "id": 519,
-    "code": "comm",
-    "name": "评论",
-    "cat": "entity",
-    "desc": ""
-  },
-  {
-    "id": 520,
-    "code": "lv1",
-    "name": "一级",
-    "cat": "gran",
-    "desc": ""
-  },
-  {
-    "id": 521,
-    "code": "category",
-    "name": "类目",
-    "cat": "gran",
-    "desc": ""
-  },
-  {
-    "id": 522,
-    "code": "sold",
-    "name": "卖",
-    "cat": "entity",
-    "desc": ""
+    "desc": "时间类字段，如 create_time、update_time"
   }
 ]
