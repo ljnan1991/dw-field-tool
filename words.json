@@ -1678,5 +1678,12 @@
     "name": "比价",
     "cat": "biz",
     "desc": ""
+  },
+  {
+    "id": 533,
+    "code": "comp",
+    "name": "可比",
+    "cat": "biz",
+    "desc": ""
   }
 ]
