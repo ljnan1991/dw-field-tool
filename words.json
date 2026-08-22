@@ -1685,5 +1685,12 @@
     "name": "可比",
     "cat": "biz",
     "desc": ""
+  },
+  {
+    "id": 534,
+    "code": "high_price",
+    "name": "高价",
+    "cat": "biz",
+    "desc": ""
   }
 ]
